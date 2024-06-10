@@ -1,0 +1,62 @@
+#include <bits/stdc++.h>
+
+#define  int   long long 
+#define  all(x)   (x).begin(), (x).end()
+#define  f   first
+#define  s   second
+
+const int N = 1e5 + 1;
+
+using namespace std;
+
+int num_of_paths(int x, int y, int n, int m){
+    if( x == n && y == m ) return 1;
+    if( x > n ) return 0;
+    if( y > m ) return 0;
+    return num_of_paths(x+1, y, n, m) + num_of_paths(x, y+1, n, m);
+}
+
+string mult(string s){
+    int carry = 0;
+      for(int i = 0; i < s.size(); i++){
+          int x = (2 * (s[i] - '0') + carry) % 10;
+          carry = (2 * (s[i] - '0') + carry) / 10;
+          s[i] = (x + '0');
+          
+      }  
+      if( carry ) s += '1';
+      return s;
+}
+
+void solve(){
+    
+    string s = "2", ss;
+    for(int i = 1; i <= 999; i++){
+        s = mult(s);
+        
+    }
+    reverse(all(s));
+    int sum = 0;
+    for(int i = 0; i < s.size(); i++){
+        sum += (s[i] - '0');
+    }cout << pow(2, 15) << '\n';
+    cout << sum << '\n';
+    cout << s << '\n';
+}
+
+int32_t main()
+{
+    ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
+    
+        // #ifndef ONLINE_JUDGE
+        // freopen("input.txt","r",stdin);
+        // freopen("output.txt","w",stdout);   
+        // #endif
+
+    int t = 1;  //cin >> t;
+    while( t-- ){
+        solve();
+    }
+
+    return 0;
+}

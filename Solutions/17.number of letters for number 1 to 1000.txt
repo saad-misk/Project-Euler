@@ -1,0 +1,37 @@
+#include <bits/stdc++.h>
+
+#define  int   long long 
+#define  all(x)   (x).begin(), (x).end()
+#define  f   first
+#define  s   second
+
+const int N = 1e5 + 1;
+
+using namespace std;
+
+void solve(){
+    // one, two, ..., nine --> 36 ---> (36*10)(one ... ) + (36*10*8)(twenty one ... ) + 100*36(one hundred ... )
+    // ten, eleven, ..., nineteen --> 70 ---> 70*10
+    // twenty, thirty, ..., ninety --> 46 ---> 46*10
+    // hundred --> 7 ---> 7*900
+    // one thousand ---> 11
+    // and ---> 891*3
+    cout << ( (360 + 360*8 + 3600) + 700 + 4600 + 900*7 + 11 + 891*3 );
+}
+
+int32_t main()
+{
+    ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
+    
+        // #ifndef ONLINE_JUDGE
+        // freopen("input.txt","r",stdin);
+        // freopen("output.txt","w",stdout);   
+        // #endif
+
+    int t = 1;  //cin >> t;
+    while( t-- ){
+        solve();
+    }
+
+    return 0;
+}

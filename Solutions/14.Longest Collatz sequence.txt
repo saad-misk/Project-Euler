@@ -1,0 +1,43 @@
+#include <bits/stdc++.h>
+
+#define   ll     long long
+
+using namespace std;
+
+ll collatz( ll n ){
+    ll sum = 1;
+    while( true ){
+        if( n % 2 == 0 ){
+            n /= 2;
+        }else{
+            n = 3*n + 1;
+        }
+        sum++;
+        if( n == 1 ) break;
+    }
+    return sum;
+}
+
+void solve(){
+    
+    ll mx = 0, ans;
+    for(int i = 2; i <= 1000000; i++){
+        ll x = collatz(i);
+        if( x > mx ){
+            mx = x;
+            ans = i;
+        }
+    }
+    cout << ans << "\n";
+}
+
+int main()
+{
+    ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
+    int t = 1;  //cin >> t;
+    while(t--){
+        solve();
+    }
+
+    return 0;
+}

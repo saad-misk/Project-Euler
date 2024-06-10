@@ -1,0 +1,61 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+/*
+    Thirty days hath September, April, June, and November
+    All the rest have thirty-one
+    Saving February alone, with twenty-eight,
+    Until leap year gives it twenty-nine.
+    
+    *1 Jan 1900 was a Monday.
+    But we start counting from 1901, so:
+        1900(1900 mod 400 != 0) is not a leap year -> its days are 365
+        1 + 365 = 1 Jan 1901. To know the day, 366 mod 7 = 2.
+        So, 1 Jan 1901 is Monday. Adding 365 brings us to the day after Monday, which is Tuesday. Thus, 1 Jan 1901 = Tuesday.
+        Therefore, the first Sunday in 1901 is 6 Jan.
+    
+    
+*/
+
+bool isLeapYear(int year){
+    
+    if( year % 4 == 0 ){
+        if( year % 100 == 0 && year % 400 != 0 ) return false;
+        return true;
+    }
+    return false;
+    
+}
+
+int main()
+{
+    
+    int start = 1901;
+    int end = 2000;
+    int months[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}; // array displaying the days of each month
+    int month = 0; // the current month
+    int ans = 0; // the number of Sundays on the first of the month from 1901 to 2000
+    
+    int sunday = 6; // the day of the first Sunday
+    
+    for(int year = 1901; year <= 2000; year++){ // looping through years
+        
+        if( isLeapYear(year) ) months[1] = 29; // setting the days of February
+        else months[1] = 28;
+        
+        while( month != 12 ){ // going through all months
+            sunday += 7; // moving to the next Sunday
+            if( sunday > months[month] ){ // if we passed the current month
+                sunday %= months[month]; // we calculate Sunday's order
+                month++; // we move to the next month
+            }
+            if( sunday == 1 ) ans++; // if Sunday is on the first of the month, we increment the answer
+        }
+        month = 0; // reset month to zero(Jan) after finishing the current year
+        
+    }
+    cout << ans << endl;
+
+    return 0;
+}

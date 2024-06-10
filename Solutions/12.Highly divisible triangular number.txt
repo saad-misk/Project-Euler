@@ -1,0 +1,42 @@
+#include <bits/stdc++.h>
+
+#define   ll     long long
+
+using namespace std;
+
+ll vactor( ll n ){
+    int sum = 0;
+    for(ll i = 1; i <= sqrt(n); i++){
+        if( n % i == 0 ) sum++;//, cout << i << " ";
+    }//cout << " sum: ";
+    sum *= 2;
+    return sum;
+}
+
+void solve(){
+    
+    vector<ll> v(1, 1);
+    for(int i = 1; i < 1000000; i++){
+        ll x = i+1 + v[i-1];
+        v.push_back(x);
+    }
+
+   for(int i = 10000; i < 1000000; i++){
+        if( vactor(v[i]) >= 500 ){
+            cout << v[i] << "\n";
+            break;
+        }
+    }
+    cout << vactor(76576500);
+}
+
+int main()
+{
+    ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
+    int t = 1;  //cin >> t;
+    while(t--){
+        solve();
+    }
+
+    return 0;
+}

@@ -1,0 +1,42 @@
+#include <bits/stdc++.h>
+
+#define   ll     long long
+
+using namespace std;
+
+
+
+void solve(){
+    
+    vector <vector <char> > v(100, vector<char>(50));
+    for( auto& i : v ){
+        for( auto& j : i ){
+            cin >> j;
+        }
+    }
+    string ans, s;
+    ll sum = 0;
+    for(int i = 49; i >= 0; i--){
+        for(int j = 0; j < 100; j++){
+            sum += ( v[j][i] - '0' );
+        }
+        char c = (sum%10 + '0');
+        ans += c;
+        sum /= 10;
+    }
+    cout << sum << "\n";
+    cout << ans << "\n";
+    reverse(ans.begin(), ans.end());
+    cout << ans << "\n";
+}
+
+int main()
+{
+    ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
+    int t = 1;  //cin >> t;
+    while(t--){
+        solve();
+    }
+
+    return 0;
+}

@@ -1,0 +1,62 @@
+#include <iostream>
+#include <unordered_set>
+
+using namespace std;
+
+int sumOfDivisors(int n){// To find the sum of the divisors for a number n
+    
+    int sum = 1;// we start sum at 1 because 1 is always a divisor for any number 
+                // we don't add n(the number itself) because d(n) is defined as the sum of divisors that are less than n
+    int i;
+    /*
+        we can loop until n-1 and the complexity will be O(n2), though for 10000 it would be fine,
+        but a more effiecient approch would be to loop until the root of the number and add i and (n / i),
+        since they both divide n
+    */
+    for(i = 2; i*i < n; i++){
+        if( n % i == 0 ){
+            sum += i;
+            sum += (n / i);
+        }
+    }
+    if( i == (n / i) ){// if the number is a perfect square we add it's root
+        sum += i;
+    }
+    
+    return sum;
+}
+
+unordered_set<int> findAmicableNumbers(int n){
+    /*
+        we use set to count the number of Amicable numbers without repitition,
+        and also unordered_set because we don't care about order
+    */
+    unordered_set<int> Amicables;// to store the numbers in it
+    // we iterate from 1 to n(10000) to check every number
+    for(int a = 1; a < n; a++){
+        
+        int b = sumOfDivisors(a);   //  b = d(a)
+        int x = sumOfDivisors(b);   // x = d(b)
+        if( b != a && x == a ){     // if b != a and d(b) == a
+            Amicables.insert(a);
+            Amicables.insert(b);
+        }
+        
+    }
+    
+    return Amicables;
+}
+
+int main()
+{
+    
+    int n = 10000;
+    unordered_set<int> s = findAmicableNumbers(10000);
+    
+    
+    int sum_of_amicables_numbers = 0;
+    for(int x : s) sum_of_amicables_numbers += x;// calculating the sum of all Amicable numbers in the set
+
+    cout << "The Sum Of Amicables Numbers Under " << n << " is: " << sum_of_amicables_numbers << endl;
+    return 0;
+}

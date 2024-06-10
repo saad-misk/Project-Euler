@@ -1,0 +1,83 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+/*
+
+    !100 is a very large number and even long int isn't enough to store it's value
+    -we can know the number of digits of a number by using floor(log(number)) + 1
+    -but we don't know the value of the factorail so we use logarithms properties:
+    -> log(a * b) = log(a) + log(b);
+    -> log(!n) = log(n * n-1 * n-2 * ...* 2 * 1) = log(n) + log(n-1) + ... + log(2) + log(0)
+    -and now we can know the digits of !100 which is 158
+    -this value can not be stored in a primitive data type, so we use an array to store digits and multiply them every time
+
+*/
+
+int findFactorialDigits(int n){
+    
+    if( n <= 1 ) return 1;
+    
+    double digits = 0;
+    for(int i = 1; i <= n; i++){
+        digits += log10(i);
+    }
+    
+    return floor(digits) + 1;
+    
+}
+
+int multiply(int x, int res[], int resSize){
+    
+    int carry = 0;
+    
+    for(int i = 0; i < resSize; i++){
+        
+        int prod = res[i] * x + carry;
+        res[i] = prod % 10;
+        carry = prod / 10;
+        
+    }
+    
+    while( carry ){
+        
+        res[resSize] = carry % 10;
+        carry = carry / 10;
+        resSize++;
+        
+    }
+    
+    return resSize;
+    
+}
+
+void factorial(int n){
+    
+    int res[1000];
+    
+    res[0] = 1;
+    int resSize = 1;
+    
+    for(int i = 2; i <= n; i++){
+        resSize = multiply(i, res, resSize);
+    }
+    
+    int sum = 0;
+    cout << n << "! = ";
+    for(int i = resSize-1; i >= 0; i--){
+        cout << res[i];
+        sum += res[i];
+    }
+    cout << endl;
+    cout << "The sum of digits is: " << sum << endl;
+    
+}
+
+int main()
+{
+    
+    cout << findFactorialDigits(100) << endl;
+    factorial(100);
+
+    return 0;
+}

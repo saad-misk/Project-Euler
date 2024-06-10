@@ -1,0 +1,61 @@
+#include <bits/stdc++.h>
+
+#define  int   long long 
+#define  all(x)   (x).begin(), (x).end()
+#define  f   first
+#define  s   second
+
+const int N = 1e5 + 1;
+
+using namespace std;
+
+int num_of_paths(int x, int y, int n, int m){
+    if( x == n && y == m ) return 1;
+    if( x > n ) return 0;
+    if( y > m ) return 0;
+    return num_of_paths(x+1, y, n, m) + num_of_paths(x, y+1, n, m);
+}
+
+    // num_of_paths for square grid = C(2*n, m) = !(2*n) / pow(!m, 2);
+    /*
+    For rectangular grids with height h and width w, the number of routes from the top left corner to the bottom right corner is given by the binomial coefficient:
+    
+    C(h+w-2, w-1) = (h+w-2)! / ((w-1)! * (h-1)!)
+    
+    This formula can be derived using a similar combinatorial argument as for square grids. The idea is to choose w-1 of the h+w-2 steps to be "down" steps, and the remaining h-1 steps to be "right" steps. The number of ways to do this is exactly the binomial coefficient C(h+w-2, w-1).
+    
+    Therefore, for a 10x15 grid, the number of routes from the top left corner to the bottom right corner is:
+    
+    C(10+15-2, 15-1) = C(23, 14) = 817,190
+    */
+
+int fact( int n ){
+    if( n == 1 ) return 1;
+    return n * fact(n - 1);
+}
+
+void solve(){
+    
+    int n, m;
+    //cout << num_of_paths(0, 0, 10, 10);
+    long double ans = 1;
+    for(int i = 40; i >= 21; i--) ans *= i;
+    cout << fixed << setprecision(0) << ans / fact(20);
+}
+
+int32_t main()
+{
+    ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
+    
+        // #ifndef ONLINE_JUDGE
+        // freopen("input.txt","r",stdin);
+        // freopen("output.txt","w",stdout);   
+        // #endif
+
+    int t = 1;  //cin >> t;
+    while( t-- ){
+        solve();
+    }
+
+    return 0;
+}
