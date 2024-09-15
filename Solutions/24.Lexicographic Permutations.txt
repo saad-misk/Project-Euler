@@ -1,0 +1,59 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+void nextPermutation(vector<int>& nums);
+
+int main()
+{
+    
+    //the first lexicographic permutation of the digits 0, 1, 2, 3, 4, 5, 6, 7, 8 and 9
+    string s = "0123456789";
+    int cnt = 1;// counter to count the order of the current permutation
+    // we generate the next permutation using next_permutation() function
+    while(next_permutation(s.begin(), s.end())){
+
+        cnt++;
+        if( cnt == 1000000 ){// once we reach the order that we want we print the permutation
+            cout << s << "\n";
+            break;
+        }
+    }
+    
+    vector<int> v = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    nextPermutation(v);
+    for(int&i : v) cout << i << " ";
+    cout << endl;
+    nextPermutation(v);
+    for(int&i : v) cout << i << " ";
+    cout << endl;
+    nextPermutation(v);
+    for(int&i : v) cout << i << " ";
+    cout << endl;
+
+    return 0;
+}
+
+// a function to find next permutation
+void nextPermutation(vector<int>& nums) {
+    // Find the first element from the right that is smaller than the element next to it.
+    int i = nums.size() - 2;
+    while (i >= 0 && nums[i] >= nums[i + 1]) {
+        i--;
+    }
+    
+    // If such an element is found, find the smallest element to the right of it that is larger than it.
+    if (i >= 0) {
+        int j = nums.size() - 1;
+        while (j > i && nums[j] <= nums[i]) {
+            j--;
+        }
+        // Swap the two elements.
+        swap(nums[i], nums[j]);
+    }
+    
+    // Reverse the subarray to the right of i to get the next permutation.
+    reverse(nums.begin() + i + 1, nums.end());
+}

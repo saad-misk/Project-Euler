@@ -1,0 +1,49 @@
+#include <iostream>
+#include <set>
+#include <cmath>
+
+using namespace std;
+
+// Function to check if n is a power of another number for example: 8 = 2^3, 36 = 6^2
+pair<int, int> is_power_of_another_number(int n){
+    // Loop through bases from 2 to 10
+    for(int i = 2; i <= 10; i++){
+        // Loop through exponents from 2 to 6
+        for(int j = 2; j < 7; j++){
+            // Check if i^j equals n
+            if( pow(i, j) == n ) return {i, j}; // If true, return (i, j)
+            // If i^j exceeds n, no need to continue with higher exponents
+            if( pow(i, j) > n ) break;
+        }
+    }
+    // If no match found, return (-1, -1)
+    return {-1, -1};
+}
+
+int main()
+{
+    // Set to store pairs (base, exponent) representing unique powers
+    set< pair<int, int> > s;
+    
+    // Loop through bases from 2 to 100
+    for(int a = 2; a <= 100; a++){
+        int x = a, y = 1; // Initialize x and y with current base and exponent 1
+        // Check if a can be represented as i^j for some i, j in specified range
+        pair<int, int> num = is_power_of_another_number(a);
+        // If a is a power of another number, update x and y accordingly
+        if(num.first != -1){
+            x = num.first;
+            y = num.second;
+        }
+        // Loop through exponents from 2 to 100
+        for(int b = 2; b <= 100; b++){
+            // Insert (x, y*b) into the set to ensure uniqueness of (base, exponent)
+            s.insert({x, y*b});
+        }
+    }
+    
+    // Output the size of the set, which represents the number of distinct terms
+    cout << s.size() << endl;
+
+    return 0;
+}

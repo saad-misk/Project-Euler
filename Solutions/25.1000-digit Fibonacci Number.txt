@@ -1,0 +1,60 @@
+#include <iostream>
+
+using namespace std;
+
+/*
+    in ordered to find the index of the first term in the Fibonacci sequence to contain 1000 digits
+    we calculate the Fibonacci sequence and store it in an array, but as it's numbers are very large
+    we can't use primitive types, so we use string instead to represent numbers and we add two strings 
+    in addStrings() function that evaluate there result, then we loop until we reach the Fibonacci
+    number(string) with size equal to 1000 then we print it's index
+*/
+
+// This function takes two strings representing non-negative integers as input and returns their sum as a string.
+string addStrings(string num1, string num2) {
+    // Initialize an empty string to store the result.
+    string result;
+    // Initialize a variable to hold the carry.
+    int carry = 0;
+    // Initialize two pointers for iterating through the input strings, starting from the rightmost digit.
+    int i = num1.size() - 1;
+    int j = num2.size() - 1;
+
+    // Continue looping until we've processed all digits in both input strings and there's no carry left.
+    while (i >= 0 || j >= 0 || carry > 0) {
+        // Get the current digit from num1 if i is within bounds, otherwise set it to 0.
+        int digit1 = (i >= 0) ? num1[i--] - '0' : 0;
+        // Get the current digit from num2 if j is within bounds, otherwise set it to 0.
+        int digit2 = (j >= 0) ? num2[j--] - '0' : 0;
+        // Calculate the sum of the current digits along with the carry.
+        int sum = digit1 + digit2 + carry;
+        // Update the carry for the next iteration by dividing the sum by 10.
+        carry = sum / 10;
+        // Update the sum to keep it within the range of 0-9.
+        sum %= 10;
+        // Insert the sum as a character at the beginning of the result string.
+        result.insert(result.begin(), sum + '0');
+    }
+
+    return result;
+}
+
+
+int main()
+{
+    
+    string f[10000];
+    f[0] = "1";
+    f[1] = "1";
+    for(int i = 2; i < 10000; i++){
+        f[i] = addStrings(f[i-1], f[i-2]);
+        if( f[i].size() == 1000 ){
+            cout << f[i] << "\n";
+            cout << i+1 << "\n";
+        }
+        
+    }
+    
+
+    return 0;
+}

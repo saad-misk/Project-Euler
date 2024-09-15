@@ -1,0 +1,71 @@
+#include <iostream>
+#include <unordered_set>
+#include <vector>
+
+using namespace std;
+
+/*
+    to solve this problem we first generate all abundant numbers that are less than 28123,
+    then we go through numbers from 1 to 28123 and we check if every number can be written 
+    as the sum of two abundant numbers, if it can not, we add it to our sum, then we print 
+    the final answer.
+*/
+
+unordered_set<int> AbundantsSet; // to help us find if two numbers gives a certain sum
+vector<int> AbundantsNumbers; // to store abundant numbers
+
+bool isSumOfTwoAbundant(int sum){// to check if a number can be expressed as a sum of two abundant numbers
+    
+    /*
+    we use hashmap approach to solve this two sum problem.
+    we go through abundant numbers one by one and if we find a number and it's complement 
+    that gives us the sum then we return true
+    */
+    for(int i = 0; i < AbundantsNumbers.size(); i++){
+        
+        if( AbundantsSet.find(sum - AbundantsNumbers[i]) != AbundantsSet.end() ) return true;
+
+    }
+    return false;
+}
+
+int divisorsSum( int n ){// to calculate divisors sum for a given number
+    
+    int sum = 0;
+    int i;
+    for(i = 1; i * i < n; i++){
+        if( n % i == 0 ){
+            sum += i;
+            if(i != 1) sum += (n / i);
+        }
+    }
+    if( i*i == n ){
+        sum += i;
+    }
+    return sum;
+}
+ 
+int main()
+{ 
+    
+    for(int i = 1; i <= 30000; i++){// we find the abundant numbers less than 30000
+        if( divisorsSum(i) > i ){// if it's divisors sum is larger than it then it's abundant, then we add it to our vector and set
+            AbundantsNumbers.push_back(i);
+            AbundantsSet.insert(i);
+        }
+    }
+  
+    int sum = 0;
+    for(int i = 28123; i >= 1; i--){
+        //we go through all numbers under 28123 as it's the upper limit
+        //and if a number can not be expressed as two abundant numbers then we add it to our sum
+        
+        if( !isSumOfTwoAbundant(i) ) sum += i; 
+        
+    }
+    
+    cout << sum << endl;// we print the final answer
+
+    return 0;
+}
+

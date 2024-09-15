@@ -1,0 +1,73 @@
+#include <iostream>
+
+using namespace std;
+
+int a[1001][1001]; // 2D array to represent the spiral
+int n = 1002;
+
+// Function to fill the spiral starting from position (i, j)
+void fill(int i, int j, int value, int level) {
+    // Base case: stop recursion if level exceeds the size of the array
+    if (level >= n) return;
+    
+    // Fill downward direction
+    for (int idx = i; idx <= i + (level - 2); idx++) {
+        a[idx][j] = ++value;
+    }
+    value--; // Adjust value after loop
+    i = i + (level - 2); // Move to the last filled position
+    
+    // Fill leftward direction
+    for (int idx = j; idx >= j - (level - 1); idx--) {
+        a[i][idx] = ++value;
+    }
+    value--; // Adjust value after loop
+    j = j - (level - 1); // Move to the last filled position
+    
+    // Fill upward direction
+    for (int idx = i; idx >= i - (level - 1); idx--) {
+        a[idx][j] = ++value;
+    }
+    value--; // Adjust value after loop
+    i = i - (level - 1); // Move to the last filled position
+    
+    // Fill rightward direction
+    for (int idx = j; idx <= j + (level - 1); idx++) {
+        a[i][idx] = ++value;
+    }
+    j = j + (level - 1); // Move to the last filled position
+    
+    // Recursive call to fill the next level of the spiral
+    fill(i, j + 1, value, level + 2);
+}
+
+int main() {
+    // Brute force solution: simulate the spiral and sum the diagonals
+    a[500][500] = 1; // The center of the spiral
+    fill(500, 501, 1, 3); // Start filling the spiral
+
+    int sum = 0; // Variable to store the total sum
+
+    // Sum the primary diagonal (top-left to bottom-right)
+    for (int i = 0, j = 0; i < 1001 && j < 1001; i++, j++) {
+        sum += a[i][j];
+    }
+    
+    // Sum the secondary diagonal (top-right to bottom-left)
+    for (int i = 0, j = 1000; i < 1001 && j >= 0; i++, j--) {
+        sum += a[i][j];
+    }
+    
+    cout << sum - 1 << endl; // Subtract 1 to avoid double-counting the center element
+
+    // Analytical solution: sum the corners of each layer
+    // top-right= n*n, top-left: n*n - (n-1), left-bottom: n*n - (2*n - 2), right-bottom: n*n - (3*n - 3)
+    // Formula: sum of corners = 4*n*n - 6*n + 6
+    int sum2 = 0;
+    for (int i = 3; i <= 1001; i += 2) {
+        sum2 += 4 * i * i - 6 * i + 6;
+    }
+    cout << sum2 + 1 << endl; // Add 1 because the sum starts from n = 3
+
+    return 0;
+}

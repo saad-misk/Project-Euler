@@ -1,0 +1,101 @@
+#include <iostream>
+#include <map>
+
+using namespace std;
+
+// This function divides two integers: numerator/denominator.
+// It simulates the long division process to get an accurate result,
+// storing the result as a string.
+string divide(int numerator, int denominator) {
+    // Map to store the position of each numerator value, useful for detecting recurring cycles
+    map<int, int> numerator_position;
+    // String to store the result of the division
+    string s = "";
+    
+    // Check if the numerator is less than the denominator
+    if (numerator > denominator) {
+        return "The function works only if the numerator is less than the denominator.";
+    }
+    
+    // Variable to store where the recurring cycle begins
+    int start = -1;
+    
+    // Perform long division up to 1000 iterations for accuracy
+    for (int i = 1; i <= 1000; i++) {
+        // Multiply the numerator by 10 to perform the division
+        numerator *= 10;
+        
+        // If one multiply is not enough, keep multiplying and add '0's to the result
+        while (numerator < denominator) {
+            numerator *= 10;
+            s += '0';
+        }
+        
+        // Check if the numerator value was repeated to detect the recurring cycle
+        if (numerator_position[numerator] > 0) {
+            start = numerator_position[numerator];
+            s += ')'; // Indicate the end of the recurring cycle
+            break;
+        }
+        
+        // Store the position of the current numerator value
+        numerator_position[numerator] = i;
+        
+        // Append the result of the current division to the string
+        s += (numerator / denominator + '0');
+        
+        // Update the numerator with the remainder of the division
+        numerator = numerator % denominator;
+        
+        // If the numerator becomes zero, the division is complete
+        if (numerator == 0) break;
+    }
+    
+    // Add a bracket at the beginning of the recurring cycle
+    string ans = "";
+    for (int i = 0; i < s.size(); i++) {
+        if (i == start - 1) ans += '(';
+        ans += s[i];
+    }
+    
+    // Return the result as a string with a leading "0."
+    return "0." + ans;
+}
+
+// This function returns only the recurring cycle part from the division result string
+string get_recurring_cycle(string s) {
+    if (s.find('(') == string::npos) return "";
+    int start = s.find('(');
+    int end = s.find(')');
+    string ans = s.substr(start, end - start + 1); // Fixed the substr parameters to include the closing bracket
+    return ans;
+}
+
+int main() {
+    // Numerator for the division, always 1 in this problem
+    int numerator = 1;
+    // Variable to store the length of the longest recurring cycle
+    int mx = 0;
+    // Variable to store the denominator with the longest recurring cycle
+    int ans = 0;
+
+    // Loop through denominators from 2 to 999
+    for (int denominator = 2; denominator < 1000; denominator++) {
+        // Get the division result as a string
+        string result = divide(numerator, denominator);
+        // Uncomment the next line to see the division result and recurring cycle
+        // cout << "1/" << denominator << " = " << result << " " << get_recurring_cycle(result) << endl;
+        // Get the recurring cycle part of the result
+        string recurring_cycle = get_recurring_cycle(result);
+        // Update the longest recurring cycle and corresponding denominator if necessary
+        if (recurring_cycle.size() > mx) {
+            ans = denominator;
+            mx = recurring_cycle.size();
+        }
+    }
+    
+    // Print the denominator with the longest recurring cycle
+    cout << ans << endl;
+    
+    return 0;
+}

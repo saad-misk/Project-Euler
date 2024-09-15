@@ -1,0 +1,53 @@
+#include <iostream>
+
+using namespace std;
+
+// Function to check if a number is prime
+bool is_prime(int n) {
+    // Special case for the smallest prime number
+    if (n == 2) return true;
+    
+    // Eliminate even numbers and numbers less than 2
+    if (n % 2 == 0 || n < 2) return false;
+    
+    // Check odd numbers from 3 up to the square root of n
+    for (int i = 3; i * i <= n; i += 2) {
+        if (n % i == 0) return false;
+    }
+    
+    return true; // Return true if no divisors are found
+}
+
+int main() {
+    int mx = 0, ans = 1; // Initialize maximum number of primes and answer variable
+    
+    // Loop over possible values of a and b
+    for (int a = -999; a < 1000; a++) {
+        for (int b = -1000; b <= 1000; b++) {
+            int n = 0;
+            
+            // Generate sequence of numbers using n^2 + an + b and check for primality
+            while (true) {
+                int res = n * n + a * n + b; // Calculate the quadratic expression
+                
+                if (is_prime(res)) {
+                    n++; // Increment n if the result is prime
+                } else {
+                    break; // Break loop if the result is not prime
+                }
+            }
+            
+            // Update maximum sequence length and answer if current sequence is longer
+            if (n > mx) {
+                mx = n;
+                ans = a * b;
+            }
+        }
+    }
+    
+    // Output the maximum number of primes and the product of coefficients a and b
+    cout << mx << " " << ans << "\thi" << endl;
+
+    return 0;
+}
+s

@@ -1,0 +1,35 @@
+#include <iostream>
+#include <set>
+#include <cmath>
+
+using namespace std;
+
+int main()
+{
+    
+    for(int i = 1; i < 9; i++){
+        string s = "";
+        for(int j = 0; j < i; j++) s += '9';
+        int sum_of_digits = i * pow(9, 5);
+        cout << s << "     " << sum_of_digits << "\t" << s << " > " << sum_of_digits << " -> " << (stoi(s) > sum_of_digits ? "true\n":"false\n");
+    }
+    // we can see from previous loop that the maximum 6-digits number is larger than the sum of it's number to 5th power
+    // so after 354294 we can be sure that there is no number that it's digits to the 5th power can be larger than itself
+    int ans = 0;
+    for(int i = 2; i <= 354294; i++){
+        
+        string s = to_string(i);
+        int sum = 0;
+        for(char c : s){
+            sum += pow(c - '0', 5);
+        }
+        if( sum == i ){
+            ans += i;
+            cout << i << "\n";
+        }
+    }
+    cout << "answer = " << ans << endl;
+
+
+    return 0;
+}
